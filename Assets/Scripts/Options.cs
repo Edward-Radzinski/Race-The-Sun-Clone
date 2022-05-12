@@ -12,18 +12,18 @@ public class Options : MonoBehaviour
     [SerializeField] private Slider _sensitivitySlider, _volumeSlider;
 
     private bool _activeOptionsPanel = false;
-    private bool _audioOn = true;
+    static public bool _audioOn = true;
     private float _sensitivity = 1, _volume = 1;
     private bool _accelerator = false;
 
     private void Start()
     {
-        if(PlayerPrefs.HasKey("Sensitivity")) _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
+        _audioOn = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Audio"));   
+        _accelerator = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Accelerator"));
+
+        if (PlayerPrefs.HasKey("Sensitivity")) _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
         if (PlayerPrefs.HasKey("Volume")) _volume = PlayerPrefs.GetFloat("Volume");
         if (_audioOn) _audioSource.Play();
-
-        _audioOn = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Audio"));
-        _accelerator = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Accelerator"));
 
         _sensitivitySlider.value = _sensitivity;
         _volumeSlider.value = _volume;
@@ -54,8 +54,8 @@ public class Options : MonoBehaviour
     public void AudioState()
     {
         _audioOn = !_audioOn;
-        if (_audioOn) _audioSource.Play();
-        else _audioSource.Pause();
+        if (_audioOn && !PauseMenu._activePausePanel) _audioSource.Play();
+        else if(!_audioOn) _audioSource.Pause();
         ChangeLabel(_audioOn, _audioBtn);
         PlayerPrefs.SetFloat("Audio", System.Convert.ToInt32(_audioOn));
     }
