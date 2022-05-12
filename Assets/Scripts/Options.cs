@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Options : MonoBehaviour
 {
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private Text _audioBtn;
     [SerializeField] private Text _acceleratorBtn;
@@ -17,8 +18,10 @@ public class Options : MonoBehaviour
 
     private void Start()
     {
-        _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
-        _volume = PlayerPrefs.GetFloat("Volume");
+        if(PlayerPrefs.HasKey("Sensitivity")) _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
+        if (PlayerPrefs.HasKey("Volume")) _volume = PlayerPrefs.GetFloat("Volume");
+        if (_audioOn) _audioSource.Play();
+
         _audioOn = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Audio"));
         _accelerator = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Accelerator"));
 
@@ -51,6 +54,8 @@ public class Options : MonoBehaviour
     public void AudioState()
     {
         _audioOn = !_audioOn;
+        if (_audioOn) _audioSource.Play();
+        else _audioSource.Pause();
         ChangeLabel(_audioOn, _audioBtn);
         PlayerPrefs.SetFloat("Audio", System.Convert.ToInt32(_audioOn));
     }
@@ -64,7 +69,14 @@ public class Options : MonoBehaviour
     public void ChangeVolume(float newVolume)
     {
         _volume = newVolume;
+        _audioSource.volume = newVolume;
         PlayerPrefs.SetFloat("Volume", _volume);
     }
+
+    public void DeleteAll()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
 
 }
