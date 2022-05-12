@@ -12,7 +12,7 @@ public class Acceleration : MonoBehaviour
     private void Update()
     {
         _accelerator = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Accelerator"));
-        _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
+        if (PlayerPrefs.HasKey("Sensitivity")) _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
         ChangesType();
         if (_accelerator)
         {

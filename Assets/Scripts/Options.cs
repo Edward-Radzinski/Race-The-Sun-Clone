@@ -21,7 +21,9 @@ public class Options : MonoBehaviour
         _audioOn = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Audio"));   
         _accelerator = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Accelerator"));
 
+        Debug.Log(_sensitivity);
         if (PlayerPrefs.HasKey("Sensitivity")) _sensitivity = PlayerPrefs.GetFloat("Sensitivity");
+        Debug.Log(_sensitivity);
         if (PlayerPrefs.HasKey("Volume")) _volume = PlayerPrefs.GetFloat("Volume");
         if (_audioOn) _audioSource.Play();
 
