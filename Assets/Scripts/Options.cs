@@ -12,12 +12,13 @@ public class Options : MonoBehaviour
     [SerializeField] private Slider _sensitivitySlider, _volumeSlider;
 
     private bool _activeOptionsPanel = false;
-    static public bool _audioOn = true;
+    private bool _audioOn = true;
     private float _sensitivity = 1, _volume = 1;
     private bool _accelerator = false;
 
     private void Start()
     {
+        PlayerPrefs.SetFloat("Pause", 0);
         _audioOn = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Audio"));   
         _accelerator = System.Convert.ToBoolean(PlayerPrefs.GetFloat("Accelerator"));
 
@@ -56,7 +57,7 @@ public class Options : MonoBehaviour
     public void AudioState()
     {
         _audioOn = !_audioOn;
-        if (_audioOn && !PauseMenu._activePausePanel) _audioSource.Play();
+        if (_audioOn && !System.Convert.ToBoolean(PlayerPrefs.GetFloat("Pause"))) _audioSource.Play();
         else if(!_audioOn) _audioSource.Pause();
         ChangeLabel(_audioOn, _audioBtn);
         PlayerPrefs.SetFloat("Audio", System.Convert.ToInt32(_audioOn));

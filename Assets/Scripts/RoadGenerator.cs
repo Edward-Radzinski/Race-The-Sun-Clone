@@ -33,7 +33,7 @@ public class RoadGenerator : MonoBehaviour
             CreateRoad(Random.Range(0, _poolCount));
         }
 
-        if (Ship.Instance.transform.position.z - _roads[0].gameObject.transform.position.z > _roadLength / 2)
+        if (Ship.Instance.transform.position.z - _roads[0].gameObject.transform.position.z > _roadLength)
         {
             _roads[0].gameObject.SetActive(false);
             _roads.RemoveAt(0);
